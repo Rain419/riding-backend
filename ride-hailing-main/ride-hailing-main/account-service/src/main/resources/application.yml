@@ -1,0 +1,30 @@
+server:
+  port: 8762
+  #servlet:
+    #context-path: /demo
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+spring:
+  application:
+    name: account-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-bp12upfcvvr173aq0uo.mysql.rds.aliyuncs.com:3306/ridehailing?allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
+    username: ridehailing01
+    password: Hx123456
+
+mybatis:
+  mapper-locations: classpath:Mapper/*Mapper.xml
+  type-aliases-package: top.wx.pojo
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+#showSql

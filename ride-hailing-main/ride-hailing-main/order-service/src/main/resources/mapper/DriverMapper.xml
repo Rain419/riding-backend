@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.orderservice.dao.DriverMapper" >
+    <select id="findDriverById" resultType="com.example.orderservice.pojo.Driver">
+        SELECT * FROM ridehailing.driver WHERE driver_id = #{driver_id};
+    </select>
+    <select id="findDriverFromOrder">
+        SELECT driver_id from ridehailing.order WHERE order_id = #{order_id};
+    </select>
+    <update id="updateBalance" parameterType="com.example.orderservice.pojo.Driver">
+        UPDATE ridehailing.driver SET balance = #{balance} WHERE driver_id = #{driver_id};
+    </update>
+    <insert id="insertLocation">
+        INSERT INTO ridehailing.d_location(driver_id)
+        VALUES (#{driver_id});
+    </insert>
+    <update id="updateLocation">
+        UPDATE ridehailing.d_location
+        SET lon=#{lon},lat=#{lat},update_time=#{update_time}
+        WHERE driver_id=#{driver_id};
+    </update>
+    <resultMap id="DriverLocationMap" type="com.example.orderservice.vo.DriverLocationVO">
+        <association property="driver" column="driver_id" select="findDriverById"/>
+    </resultMap>
+    <select id="findLocationById" resultMap="DriverLocationMap">
+        SELECT * FROM ridehailing.driver NATURAL JOIN ridehailing.d_location WHERE driver_id=#{driver_id};
+    </select>
+    <resultMap id="DriverNearbyMap" type="com.example.orderservice.vo.DriverNearbyVo">
+        <association property="driver" column="driver_id" select="findDriverById"/>
+    </resultMap>
+    <select id="findNearestDriver" resultMap="DriverNearbyMap">
+        SELECT *,
+               ROUND(
+                           6378.138 * 2 * ASIN(
+                               SQRT(
+                                           POW(SIN( ( #{lat} * PI() / 180 - lat * PI() / 180 ) / 2 ) , 2 )
+                                           +COS( #{lat} * PI() / 180 ) * COS( lat * PI( ) / 180 )*POW( SIN( ( #{lon} * PI() / 180 - lon * PI() / 180 ) / 2 ) , 2 )
+                                   )
+                           ) * 1000
+                   ) AS distance
+        FROM ridehailing.d_location NATURAL JOIN ridehailing.driver
+        ORDER BY distance ASC;
+    </select>
+</mapper>

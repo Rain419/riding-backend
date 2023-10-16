@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/ride-hailing-main/account-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ride-hailing-main/admin-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ride-hailing-main/emergency-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ride-hailing-main/eureka-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ride-hailing-main/eureka-zuul/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ride-hailing-main/order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ride-hailing-main/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ride-hailing-main/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

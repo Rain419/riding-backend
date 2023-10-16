@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.orderservice.dao.OrderMapper" >
+    <resultMap id="OrderDetailMap" type="com.example.orderservice.vo.OrderDetailVo">
+        <id property="order_id" column="order_id"/>
+        <association property="comment" column="order_id" javaType="com.example.orderservice.pojo.Comment" select="findCommentById"/>
+        <association property="passenger" column="user_id" javaType="com.example.orderservice.pojo.Passenger" select="findPassengerById"/>
+        <association property="driver" column="driver_id" javaType="com.example.orderservice.dto.DriverDetailDto" select="findDriverDetailById"/>
+    </resultMap>
+    <select id="findAllDetail" resultMap="OrderDetailMap">
+        select * from ridehailing.order natural join ridehailing.comment;
+    </select>
+    <select id="findAllOrderDetailByUidAndState" resultMap="OrderDetailMap">
+        SELECT * FROM ridehailing.order WHERE  user_id = #{user_id} AND  `state` = #{state};
+    </select>
+    <select id="findAllOrderDetailByDidAndState" resultMap="OrderDetailMap">
+        SELECT * FROM ridehailing.order WHERE  driver_id = #{driver_id} AND  `state` = #{state};
+    </select>
+    <select id="findOrderDetailByOrderId" resultMap="OrderDetailMap">
+        SELECT * FROM ridehailing.order WHERE order_id = #{order_id} and `type` = #{type};
+    </select>
+    <select id="findOrderDetailByUserId" resultMap="OrderDetailMap">
+        SELECT * FROM ridehailing.order WHERE user_id = #{user_id} AND `type` = #{type};
+    </select>
+    <select id="findOrderDetailByUserIdAndState" resultMap="OrderDetailMap">
+        SELECT * FROM ridehailing.order WHERE user_id = #{user_id} AND `type` = #{type} AND `state` = #{state};
+    </select>
+    <select id="findOrderDetailByDriverIdAndState" resultMap="OrderDetailMap">
+        SELECT * FROM ridehailing.order WHERE driver_id = #{driver_id} AND `type` = #{type} AND `state` = #{state};
+    </select>
+    <resultMap id="OrderWithDistanceVoMap" type="com.example.orderservice.vo.OrderWithDistanceVO">
+        <id property="order_id" column="order_id"/>
+        <association property="comment" column="order_id" javaType="com.example.orderservice.pojo.Comment" select="findCommentById"/>
+        <association property="passenger" column="user_id" javaType="com.example.orderservice.pojo.Passenger" select="findPassengerById"/>
+        <association property="driver" column="driver_id" javaType="com.example.orderservice.dto.DriverDetailDto" select="findDriverDetailById"/>
+    </resultMap>
+    <select id="findNearestOrders" resultMap="OrderWithDistanceVoMap">
+        SELECT *,
+                ROUND(
+                    6378.138 * 2 * ASIN(
+                        SQRT(
+                            POW(SIN( ( #{lat} * PI() / 180 - from_lat * PI() / 180 ) / 2 ) , 2 )
+                            +COS( #{lat} * PI() / 180 ) * COS( from_lat * PI( ) / 180 )*POW( SIN( ( #{lon} * PI() / 180 - from_lon * PI() / 180 ) / 2 ) , 2 )
+                            )
+                        ) * 1000
+                    )
+                AS distance
+        FROM ridehailing.order
+        WHERE `type` = 2 AND `state`=0
+        ORDER BY distance ASC;
+    </select>
+    <select id="findMatchOrders" resultMap="OrderWithDistanceVoMap">
+        SELECT *,
+               (
+               ROUND(
+                  6378.138 * 2 * ASIN(
+                    SQRT(
+                        POW(SIN( ( #{to_lat} * PI() / 180 - to_lat * PI() / 180 ) / 2 ) , 2 )
+                        +COS( #{to_lat} * PI() / 180 ) * COS( to_lat * PI( ) / 180 )*POW( SIN( ( #{to_lon} * PI() / 180 - to_lon * PI() / 180 ) / 2 ) , 2 )
+                       )
+                   ) * 1000
+               ) +
+               ROUND(
+                           6378.138 * 2 * ASIN(
+                               SQRT(
+                                           POW(SIN( ( #{from_lat} * PI() / 180 - from_lat * PI() / 180 ) / 2 ) , 2 )
+                                           +COS( #{from_lat} * PI() / 180 ) * COS( from_lat * PI( ) / 180 )*POW( SIN( ( #{from_lon} * PI() / 180 - from_lon * PI() / 180 ) / 2 ) , 2 )
+                                   )
+                           ) * 1000
+                   )
+                )AS distance
+        FROM ridehailing.order
+        WHERE `type` = #{type} AND `datetime` >= #{datetime} AND `state`= 0
+        ORDER BY distance ASC;
+    </select>
+    <select id="findCommentById" resultType="com.example.orderservice.pojo.Comment">
+        select * from ridehailing.comment where order_id = #{order_id};
+    </select>
+    <select id="findPassengerById" resultType="com.example.orderservice.pojo.Passenger">
+        select * from  ridehailing.passenger where user_id = #{user_id};
+    </select>
+    <select id="findDriverById" resultType="com.example.orderservice.pojo.Driver">
+        select * from ridehailing.driver where driver_id = #{driver_d};
+    </select>
+    <select id="findCarById" resultType="com.example.orderservice.pojo.Car">
+        select * from ridehailing.car where driver_id = #{driver_id};
+    </select>
+    <select id="findDriverDetailById" resultType="com.example.orderservice.dto.DriverDetailDto">
+        SELECT * FROM ridehailing.driver NATURAL JOIN ridehailing.car WHERE driver_id = #{driver_id};
+    </select>
+    <update id="takeOrder" >
+        UPDATE ridehailing.order SET state=1,driver_id=#{driver_id},taken_time=#{taken_time} WHERE order_id = #{order_id};
+    </update>
+    <update id="pickUp">
+        UPDATE ridehailing.order SET state=2 WHERE order_id = #{order_id};
+    </update>
+    <update id="finishOrder">
+        UPDATE ridehailing.order SET state=3 WHERE order_id = #{order_id};
+    </update>
+    <insert id="saveComment">
+        INSERT INTO ridehailing.comment VALUES (#{order_id},#{score},#{content});
+    </insert>
+    <delete id="deleteByOid">
+        DELETE FROM ridehailing.order WHERE order_id = #{order_id} AND `type` = #{type};
+    </delete>
+</mapper>

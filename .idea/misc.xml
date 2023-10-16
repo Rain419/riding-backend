@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/ride-hailing-main/ride-hailing-main/eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/ride-hailing-main/ride-hailing-main/pom.xml" />
+        <option value="$PROJECT_DIR$/ride-hailing-main/ride-hailing-main/account-service/pom.xml" />
+        <option value="$PROJECT_DIR$/ride-hailing-main/ride-hailing-main/emergency-service/pom.xml" />
+        <option value="$PROJECT_DIR$/ride-hailing-main/ride-hailing-main/order-service/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="15" project-jdk-type="JavaSDK" />
+</project>

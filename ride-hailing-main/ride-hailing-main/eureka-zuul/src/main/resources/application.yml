@@ -1,0 +1,37 @@
+server:
+  port: 5000
+spring:
+  application:
+    name: zuul-client
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+zuul:
+  routes:
+    order-service:
+      path: /orderservice/**
+      serviceId: order-service
+    emergency-service:
+      path: /emergencyservice/**
+      serviceId: emergency-service
+    account-service:
+      path: /accountservice/**
+      serviceId: account-service
+    admin-server:
+      path: /adminserver/**
+      serviceId: admin-server
+  #是否开启重试功能
+  retryable: true
+ribbon:
+  #对当前服务的重试次数
+  MaxAutoRetries: 2
+  #切换相同Server的次数
+  MaxAutoRetriesNextServer: 0
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 12000
