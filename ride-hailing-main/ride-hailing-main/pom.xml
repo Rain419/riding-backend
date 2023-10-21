@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>feign-client</module>
+<!--        <module>feign-client</module>-->
         <module>eureka-zuul</module>
         <module>admin-server</module>
     </modules>
