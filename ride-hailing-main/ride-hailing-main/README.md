@@ -3,7 +3,7 @@ soa期末项目
 
 ## Build jar
 Dependencies:
-- java 15.0.1
+- java 11.0.2
 - maven 3.6.3
 
 Use `mvn package` to build a jar.
