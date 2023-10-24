@@ -2,7 +2,7 @@ version: "3"
 services:
     admin:
         build:
-            context: ./admin-service/
+            context: ./admin-server/
             dockerfile: Dockerfile.admin.dev
         ports:
             - 8084:8084
