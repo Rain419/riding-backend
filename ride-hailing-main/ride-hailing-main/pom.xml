@@ -5,7 +5,6 @@
     <packaging>pom</packaging>
     <modules>
 <!--        <module>feign-client</module>-->
-        <module>eureka-zuul</module>
         <module>account-service</module>
         <module>admin-server</module>
         <module>emergency-service</module>
