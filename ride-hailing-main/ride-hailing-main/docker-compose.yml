@@ -1,9 +1,9 @@
 version: "3"
 services:
-    security:
+    admin:
         build:
-            context: ./security-service/
-            dockerfile: Dockerfile.security.dev
+            context: ./admin-service/
+            dockerfile: Dockerfile.admin.dev
         ports:
             - 8084:8084
     order:
