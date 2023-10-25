@@ -5,7 +5,7 @@ spring:
     name: eureka-server
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${MY_IP}
   server:
     # 关闭保护机制，默认true
     enable-self-preservation: false
