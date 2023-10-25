@@ -1,5 +1,22 @@
 version: "3"
 services:
+
+    eureka-server:
+        build:
+            context: ./eureka-server/
+            dockerfile: Dockerfile.eureka-server.dev
+        ports:
+            - 8761:8761
+
+    eureka-zuul:
+        build:
+            context: ./eureka-zuul/
+            dockerfile: Dockerfile.eureka-zuul.dev
+        ports:
+            - 5000:5000
+        depends_on:
+            - eureka-server
+
     admin:
         build:
             context: ./admin-server/
@@ -36,21 +53,9 @@ services:
         depends_on:
             -   eureka-zuul
 
-    eureka-server:
-        build:
-            context: ./eureka-server/
-            dockerfile: Dockerfile.eureka-server.dev
-        ports:
-            - 8761:8761
 
-    eureka-zuul:
-        build:
-            context: ./eureka-zuul/
-            dockerfile: Dockerfile.eureka-zuul.dev
-        ports:
-            - 5000:5000
-        depends_on:
-            -   eureka-server
+
+
     
 
 
