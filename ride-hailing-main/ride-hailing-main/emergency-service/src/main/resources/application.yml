@@ -8,7 +8,7 @@ spring:
 #    password: Hx123456
 
 
-    url: jdbc:mysql://database-2.c4mvhuxgrca9.ap-southeast-1.rds.amazonaws.com:3306
+    url: jdbc:mysql://database-2.c4mvhuxgrca9.ap-southeast-1.rds.amazonaws.com:3306/ridehailing
     username: admin
     password: 624730152myh
 
