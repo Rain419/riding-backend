@@ -6,7 +6,7 @@ server:
 eureka:
   client:
     service-url:
-      defautZone: http://${MY_IP}:8761/eureka/
+      defautZone: http://172.31.43.41:8761/eureka/
 management:
   endpoints:
     web:

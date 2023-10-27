@@ -3,7 +3,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${MY_IP}:8761/eureka/
+      defaultZone: http://172.31.43.41:8761/eureka/
 spring:
   application:
     name: order-service
