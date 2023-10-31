@@ -16,3 +16,4 @@ eureka:
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://47.128.15.113:8761
+

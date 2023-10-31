@@ -7,6 +7,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://47.128.15.113:8761
+
 zuul:
   routes:
     order-service:
