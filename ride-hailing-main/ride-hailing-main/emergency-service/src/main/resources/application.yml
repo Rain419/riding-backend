@@ -1,6 +1,13 @@
 server:
   port: 8083
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://47.128.15.113:8761/eureka/
+
 spring:
+  application:
+    name: admin-server
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://database-1.c4mvhuxgrca9.ap-southeast-1.rds.amazonaws.com:3306/ridehailing
