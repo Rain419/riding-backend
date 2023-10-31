@@ -70,6 +70,8 @@ public class OrderService {
     public String setNewOrder(SetOrderQO setOrderQO) {
         //用来构建订单
         // change
+  //change
+
         Order order=new Order();
         String order_id=UUID.randomUUID().toString();
         order.setOrder_id(order_id);
