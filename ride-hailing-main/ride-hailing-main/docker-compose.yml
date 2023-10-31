@@ -51,7 +51,7 @@ services:
         ports:
             - 8083:8083
         depends_on:
-            -   eureka-zuul
+            - eureka-zuul
 
 
 

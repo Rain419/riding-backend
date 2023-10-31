@@ -7,7 +7,7 @@ eureka:
 
 spring:
   application:
-    name: admin-server
+    name: emergency-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://database-1.c4mvhuxgrca9.ap-southeast-1.rds.amazonaws.com:3306/ridehailing
@@ -31,11 +31,11 @@ spring:
         starttls:
           enable: true
           required: true
-  rabbitmq:
-    host: 47.115.33.176
-    port: 5672
-    username: guest
-    password: guest
+#  rabbitmq:
+#    host: 47.115.33.176
+#    port: 5672
+#    username: guest
+#    password: guest
 management:
   endpoints:
     web:
