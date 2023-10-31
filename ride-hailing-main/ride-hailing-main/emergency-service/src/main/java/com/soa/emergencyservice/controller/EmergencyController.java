@@ -2,6 +2,7 @@ package com.soa.emergencyservice.controller;
 
 import com.soa.emergencyservice.dao.EmergencyDao;
 import com.soa.emergencyservice.entity.Contact;
+import com.soa.emergencyservice.vo.EmergencyContact;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +31,12 @@ public class EmergencyController {
     @ApiOperation(value = "乘客添加紧急联系人", notes = "乘客添加紧急联系人，输入identity（身份）、userId（账号）、toEmail（邮箱）和emergency_phone（电话号码）")
     @PostMapping("/emergency/add")
     @ResponseBody
-    public Contact add(@RequestParam("identity") String identity,
-                       @RequestParam("emergency_phone") String emergency_phone,
-                       @RequestParam("userId") String userId,
-                       @RequestParam("toEmail") String toEmail) {
+    public Contact add(@RequestBody EmergencyContact emergencyContact) {
         Contact contact = new Contact();
-        contact.setIdentity(identity);  // 传入身份
-        contact.setEmergency_phone(emergency_phone);  // 传入电话号码
-        contact.setUserId(userId);  // 传入账号
-        contact.setToEmail(toEmail);  // 传入邮箱
+        contact.setIdentity(emergencyContact.getIdentity());  // 传入身份
+        contact.setEmergency_phone(emergencyContact.getEmergency_phone());  // 传入电话号码
+        contact.setUserId(emergencyContact.getUserId());  // 传入账号
+        contact.setToEmail(emergencyContact.getToEmail());  // 传入邮箱
         return repository.save(contact);
      }
 
