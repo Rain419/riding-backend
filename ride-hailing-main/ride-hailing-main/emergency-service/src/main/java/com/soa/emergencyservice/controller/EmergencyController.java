@@ -2,6 +2,7 @@ package com.soa.emergencyservice.controller;
 
 import com.soa.emergencyservice.dao.EmergencyDao;
 import com.soa.emergencyservice.entity.Contact;
+import com.soa.emergencyservice.entity.ContactBuilder;
 import com.soa.emergencyservice.vo.EmergencyContact;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,12 +33,19 @@ public class EmergencyController {
     @PostMapping("/emergency/add")
     @ResponseBody
     public Contact add(@RequestBody EmergencyContact emergencyContact) {
-        Contact contact = new Contact();
-        contact.setIdentity(emergencyContact.getIdentity());  // 传入身份
-        contact.setEmergency_phone(emergencyContact.getEmergency_phone());  // 传入电话号码
-        contact.setUserId(emergencyContact.getUserId());  // 传入账号
-        contact.setToEmail(emergencyContact.getToEmail());  // 传入邮箱
-        return repository.save(contact);
+        ContactBuilder contactBuilder = new ContactBuilder()
+                .identity(emergencyContact.getIdentity())
+                .emergency_phone(emergencyContact.getEmergency_phone())
+                .userId(emergencyContact.getUserId())
+                .toEmail(emergencyContact.getToEmail());
+        return contactBuilder.build();
+
+//        Contact contact = new Contact();
+//        contact.setIdentity(emergencyContact.getIdentity());  // 传入身份
+//        contact.setEmergency_phone(emergencyContact.getEmergency_phone());  // 传入电话号码
+//        contact.setUserId(emergencyContact.getUserId());  // 传入账号
+//        contact.setToEmail(emergencyContact.getToEmail());  // 传入邮箱
+//        return repository.save(contact);
      }
 
      /**

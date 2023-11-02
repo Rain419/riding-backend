@@ -24,44 +24,4 @@ public class Contact {
 
     public Contact() {
     }
-
-    public String getToEmail() {
-        return toEmail;
-    }
-
-    public void setToEmail(String toEmail) {
-        this.toEmail = toEmail;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getIdentity() {
-        return identity;
-    }
-
-    public void setIdentity(String identity) {
-        this.identity = identity;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getEmergency_phone() {
-        return emergency_phone;
-    }
-
-    public void setEmergency_phone(String emergency_phone) {
-        this.emergency_phone = emergency_phone;
-    }
 }
