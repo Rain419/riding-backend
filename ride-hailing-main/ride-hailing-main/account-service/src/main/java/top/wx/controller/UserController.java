@@ -11,9 +11,16 @@ import top.wx.common.JsonResult;
 import top.wx.pojo.Passenger;
 import top.wx.pojo.Driver;
 import top.wx.pojo.Car;
+import top.wx.pojo.Pay;
 import top.wx.service.Userservice;
 
+import java.math.BigDecimal;
 
+//When using @RestController,
+// you don't need to annotate individual methods
+// with @ResponseBody because it's implied.
+// The return values of the methods
+// are automatically converted to the response body.
 @RestController
 public class UserController {
 	
@@ -21,7 +28,6 @@ public class UserController {
 	private Userservice userservice;
 		
 	//乘客注册
-	@ResponseBody
 	@ApiOperation(value = "乘客注册", notes = "乘客注册")
 	@RequestMapping(value = "/register", headers = {
 			"content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
@@ -47,7 +53,6 @@ public class UserController {
 
 	//司机注册
 	@ApiOperation(value = "司机注册", notes = "司机注册")
-	@ResponseBody
 	@RequestMapping(value = "/registerDriver", headers = {
 			"content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public JsonResult registerDriver(@RequestBody Driver driver) {
@@ -70,7 +75,6 @@ public class UserController {
 
 	//乘客登录
 	@ApiOperation(value = "乘客登录", notes = "乘客登录")
-	@ResponseBody
 	@RequestMapping(value = "/login", headers = {
 			"content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public JsonResult login(@RequestBody Passenger user) {
@@ -94,7 +98,6 @@ public class UserController {
 
 	//司机登录
 	@ApiOperation(value = "司机登录", notes = "司机登录")
-	@ResponseBody
 	@RequestMapping(value = "/loginDriver", headers = {
 			"content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public JsonResult loginDriver(@RequestBody Driver driver) {
@@ -118,7 +121,6 @@ public class UserController {
 
 	//上传车辆信息
 	@ApiOperation(value = "上传车辆信息", notes = "上传车辆信息")
-	@ResponseBody
 	@RequestMapping(value = "/uploadCar", headers = {
 			"content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public JsonResult uploadCar(@RequestBody Car car) {
@@ -156,7 +158,6 @@ public class UserController {
 
 	//上传司机头像
 	@ApiOperation(value = "上传司机头像", notes = "上传司机头像")
-	@ResponseBody
 	@RequestMapping(value = "/uploadDriverIcon", headers = {
 			"content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public JsonResult uploadDriverIcon(@RequestBody Driver driver) {
@@ -176,7 +177,6 @@ public class UserController {
 
 	//上传乘客头像
 	@ApiOperation(value = "上传乘客头像", notes = "上传乘客头像")
-	@ResponseBody
 	@RequestMapping(value = "/uploadPassengerIcon", headers = {
 			"content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public JsonResult uploadPassengerIcon(@RequestBody Passenger passenger) {
@@ -196,7 +196,6 @@ public class UserController {
 
 	//根据司机id查询司机信息
 	@ApiOperation(value = "根据司机id查询司机信息", notes = "根据司机id查询司机信息")
-	@ResponseBody
 	@RequestMapping(value = "/InquireDriverInfo", headers = {
 			"content-type=application/json" }, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public JsonResult InquireDriverInfo(@RequestBody Driver driver) {
@@ -226,6 +225,23 @@ public class UserController {
 
 		Passenger passengerResult=userservice.getPassengerInfo(id);
 		return JsonResult.buildData(passengerResult);
+	}
+
+
+	@ApiOperation(value = "付款", notes = "付款")
+	@RequestMapping(value = "/pay", method = RequestMethod.POST)
+	public JsonResult pay(@RequestBody Pay pay) {
+		Passenger user = userservice.queryUserForLogin(pay.getUser_id(), pay.getPassword());
+		Double balance = user.getBalance();
+		if (pay.getFee() > balance) {
+			// 正常逻辑： 抛出指定error， 统一捕获， 同统一返回
+			// 这里简单处理
+			return JsonResult.buildFailure(" no enough balance");
+		} else {
+			user.setBalance(balance - pay.getFee());
+			userservice.saveUser(user);
+		}
+		return JsonResult.buildData(user);
 	}
 
 	//微信登录

@@ -1,5 +1,11 @@
 package top.wx.common;
 
+import lombok.Data;
+
+import java.security.SecureRandom;
+import java.util.Random;
+
+@Data
 public class JsonResult {
 	
 	//响应状态码
@@ -10,6 +16,24 @@ public class JsonResult {
 	
 	//响应数据
 	private Object data;
+
+	private String requestId;
+
+	private static final String CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	private static final int ID_LENGTH = 12; // Specify your desired length
+
+	public static String generateRequestId() {
+		SecureRandom random = new SecureRandom();
+		StringBuilder requestId = new StringBuilder(ID_LENGTH);
+
+		for (int i = 0; i < ID_LENGTH; i++) {
+			int randomIndex = random.nextInt(CHARACTERS.length());
+			char randomChar = CHARACTERS.charAt(randomIndex);
+			requestId.append(randomChar);
+		}
+
+		return requestId.toString();
+	}
 	
 	public Integer getStatus() {
 		return status;
@@ -47,6 +71,7 @@ public class JsonResult {
 		this.status = 200;
 		this.msg = "OK";
 		this.data = data;
+		this.requestId = generateRequestId();
 	}
 	
 	public JsonResult() {
@@ -60,7 +85,14 @@ public class JsonResult {
 	public static JsonResult buildData(Object data) {
 		return new JsonResult(data);
 	}
-	
+
+	public static JsonResult buildFailure(String msg) {
+		JsonResult jsonResult = new JsonResult();
+		jsonResult.setMsg(msg);
+		jsonResult.setStatus(500);
+		return jsonResult;
+	}
+
     public static JsonResult errorMsg(String msg) {
         return new JsonResult(500, msg, null);
     }
