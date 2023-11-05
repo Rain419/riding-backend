@@ -2,6 +2,7 @@ package com.example.orderservice.pojo;
 
 
 
+import com.example.orderservice.OrderState.OrderState;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
@@ -13,6 +14,7 @@ import java.util.List;
 @Alias("Order")
 @Data
 public class Order{
+    private OrderState orderState;
     public String order_id;
     public int type;
     public int state;

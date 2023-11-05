@@ -1,5 +1,7 @@
 package com.example.orderservice.service;
 
+import com.example.orderservice.OrderState.FinishedState;
+import com.example.orderservice.OrderState.UnderGoingState;
 import com.example.orderservice.dao.DriverMapper;
 import com.example.orderservice.dao.OrderMapper;
 import com.example.orderservice.dao.PassengerMapper;
@@ -73,6 +75,7 @@ public class OrderService {
   //change
 
         Order order=new Order();
+        order.setOrderState(new UnderGoingState());
         String order_id=UUID.randomUUID().toString();
         order.setOrder_id(order_id);
         order.setUser_id(setOrderQO.getUser_id());
@@ -119,6 +122,7 @@ public class OrderService {
         //String u_id = passengerMapper.findPassengerFromOrder(order_id);
         String u_id=order.getUser_id();
         String d_id=order.getDriver_id();
+
         //String d_id = driverMapper.findDriverFromOrder(order_id);
 
         //根据用户id获取用户对象
@@ -142,6 +146,8 @@ public class OrderService {
         driver.setBalance(driver.getBalance()+order.getPrice());
         try{
         //保存修改后的余额数据
+
+        order.setOrderState(new FinishedState());
         passengerMapper.updateBalance(passenger);
         driverMapper.updateBalance(driver);
         //修改订单状态，使订单变为已完成
@@ -184,5 +190,9 @@ public class OrderService {
     }
     public Comment findCommentById(String order_id){
         return orderMapper.findCommentById(order_id);
+    }
+
+    public String getPosition(Order order) {
+        return order.getOrderState().getPosition();
     }
 }
