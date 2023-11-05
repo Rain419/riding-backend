@@ -35,14 +35,14 @@ services:
         depends_on:
             - eureka-zuul
 
-    account:
-        build:
-            context: ./account-service/
-            dockerfile: Dockerfile.account.dev
-        ports:
-            - 8762:8762
-        depends_on:
-            - eureka-zuul
+#    account:
+#        build:
+#            context: ./account-service/
+#            dockerfile: Dockerfile.account.dev
+#        ports:
+#            - 8762:8762
+#        depends_on:
+#            - eureka-zuul
 
     emergency:
         build:
