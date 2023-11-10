@@ -25,7 +25,9 @@ public class Contact {
     public Contact() {
     }
 
+
     public Contact(String s) {
         userId=s;
     }
+
 }
